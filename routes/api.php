@@ -16,11 +16,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('register',[AuthController::class,'register']);
-Route::post('login',[AuthController::class,'login']);
+Route::middleware(['throttle:uploads'])->group(function () {
+    Route::post('register', [AuthController::class, 'register']);
+    Route::post('login', [AuthController::class, 'login']);
 
-Route::post('user',[UserController::class, 'createUser'])->middleware('auth:api');
-Route::get('users',[UserController::class, 'getAllUsers']);
-Route::get('user/{id}',[UserController::class,'findUserById']);
-Route::put('user/{id}',[UserController::class,'updateUser'])->middleware('auth:api');
-Route::delete('user/{id}',[UserController::class,'deleteUserById'])->middleware('auth:api');
+    Route::post('user', [UserController::class, 'createUser'])->middleware('auth:api');
+    Route::get('users', [UserController::class, 'getAllUsers']);
+    Route::get('user/{id}', [UserController::class, 'findUserById']);
+    Route::put('user/{id}', [UserController::class, 'updateUser'])->middleware('auth:api');
+    Route::delete('user/{id}', [UserController::class, 'deleteUserById'])->middleware('auth:api');
+});
+
