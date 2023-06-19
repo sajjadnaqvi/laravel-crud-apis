@@ -30,4 +30,27 @@ class UserController extends Controller
             return $this->responseError(null, $exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+    public function getAllUsers()
+    {
+        try {
+            $users = User::all();
+            return $this->responseSuccess($users);
+        } catch (Exception $exception) {
+            return $this->responseError(null, $exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function findUserById(Request $request)
+    {
+        try {
+            $users = User::find($request->id);
+            if (!$users) {
+                return $this->responseError(null, 'User Not Found', 404);
+            }
+            return $this->responseSuccess($users);
+        } catch (Exception $exception) {
+            return $this->responseError(null, $exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }

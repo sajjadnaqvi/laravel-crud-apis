@@ -20,3 +20,5 @@ Route::post('register',[AuthController::class,'register']);
 Route::post('login',[AuthController::class,'login']);
 
 Route::post('user',[UserController::class, 'createUser'])->middleware('auth:api');
+Route::get('users',[UserController::class, 'getAllUsers']);
+Route::get('user/{id}',[UserController::class,'findUserById']);
