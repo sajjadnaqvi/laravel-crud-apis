@@ -71,4 +71,19 @@ class UserController extends Controller
             return $this->responseError(null, $exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+    public function deleteUserById(Request $request)
+    {
+        try {
+            $user = User::find($request->id);
+            if (!$user)
+            {
+                return $this->responseError(null, 'User Not Found', 404);
+            }
+            $user->delete($request->id);
+            return $this->responseSuccess(null, 'Deleted Successfully',204);
+        } catch (Exception $exception) {
+            return $this->responseError(null, $exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }
